@@ -1,6 +1,6 @@
 const pool = require('../config/db');
 
-const user = async()=>{
+const User = async()=>{
   try{
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users(
@@ -10,8 +10,9 @@ const user = async()=>{
       `);
     console.log("user table created");
   } catch (error){
-    console.log("Error creaing table:", error);
+    console.log("Error creating table:", error);
   }
 };
 
-user();
+
+module.exports = User;

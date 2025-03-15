@@ -12,11 +12,16 @@ const router = express.Router();
 router.post("/register", async (req,res)=>{
   const {username, password} = req.body;
 
+  console.log({username,password});
+  
+
   try{
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
     const result = await pool.query(
-      "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *", [username, hashedPassword]
+      "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *", [username, hashedPassword]   
     );
+    
 
     res.json({message: "User registered successfully", user: result.rows[0]});
   }
@@ -38,12 +43,10 @@ router.post("/login", async(req,res)=>{
 
     const user = result.rows[0];
     const isMatch = await bcrypt.compare(password, user.password);
-      
     if(!isMatch){
       return res.status(400).json({message:"Invalid credential"});
-
-      const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn:"1h"}); 
     }
+    const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn:"1h"}); 
     res.json(token);
   }
   catch(error){
