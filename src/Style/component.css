@@ -1,0 +1,16 @@
+.box{
+  width: ;
+  background: red;
+  border-radius: 10px;
+}
+.txt{
+  font-size: 17px;
+  padding: 20px;
+}
+
+.content{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+
+}
